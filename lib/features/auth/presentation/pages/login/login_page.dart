@@ -103,6 +103,7 @@ class LoginPage extends StatelessWidget {
                 child: CommonButton(
                   title: Strings.strLogin,
                   onTap: () async {
+                    FocusScope.of(context).unfocus();
                     if (emailController.text.isEmpty) {
                       SnackBarUtil.showInSnackBar(context, Strings.strPleaseEnterEmail);
                     } else if (passwordController.text.isEmpty) {
@@ -112,7 +113,6 @@ class LoginPage extends StatelessWidget {
                       String result = await Authentication().logInUser(email: emailController.text, password: passwordController.text);
                       if (result == 'success') {
                         await LocalStorage.instance.write(DBKeys.isLogin, true);
-                        FocusScope.of(context).unfocus();
                         Navigator.pushNamedAndRemoveUntil(context, RouteList.mainPage, (route) => false);
                       } else {
                         showDialog(
